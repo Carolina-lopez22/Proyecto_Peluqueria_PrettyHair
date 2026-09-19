@@ -13,7 +13,7 @@ public class ClienteDAO {
 	
 	public Cliente crear(Cliente cliente) throws SQLException {
 	    
-	    String sql = "INSERT INTO clientes (nombre, telefono) VALUES (?, ?)";
+		String sql = "INSERT INTO clientes (nombre, telefono, visitas_previas) VALUES (?, ?, ?)";
 	    
 	    try (Connection connection = Conexion.conectar();
 	         PreparedStatement statement = connection.prepareStatement(sql, 
@@ -21,7 +21,7 @@ public class ClienteDAO {
 	        
 	        statement.setString(1, cliente.getNombre());
 	        statement.setString(2, cliente.getTelefono());
-	        
+	        statement.setInt(3, cliente.getVisitasPrevias());
 	        statement.executeUpdate();
 	        
 	        try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -37,7 +37,7 @@ public class ClienteDAO {
 
 	    List<Cliente> clientes = new ArrayList<>();
 
-	    String sql = "SELECT id_cliente, nombre, telefono FROM clientes";
+	    String sql = "SELECT id_cliente, nombre, telefono, visitas_previas FROM clientes";
 
 	    try (Connection connection = Conexion.conectar();
 	         PreparedStatement statement = connection.prepareStatement(sql);
@@ -48,7 +48,8 @@ public class ClienteDAO {
 	            Cliente cliente = new Cliente(
 	                resultSet.getInt("id_cliente"),
 	                resultSet.getString("nombre"),
-	                resultSet.getString("telefono")
+	                resultSet.getString("telefono"),
+	                resultSet.getInt("visitas_previas")
 	            );
 
 	            clientes.add(cliente);
@@ -60,9 +61,9 @@ public class ClienteDAO {
 	    // Buscar un cliente por su ID
 	    public Optional<Cliente> buscarPorId(int id) throws SQLException {
 
-	        String sql = "SELECT id_cliente, nombre, telefono "
-	                   + "FROM clientes WHERE id_cliente = ?";
-
+	    	String sql = "SELECT id_cliente, nombre, telefono, visitas_previas "
+	    	           + "FROM clientes WHERE id_cliente = ?";
+	    	
 	        try (Connection connection = Conexion.conectar();
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -75,7 +76,8 @@ public class ClienteDAO {
 	                    Cliente cliente = new Cliente(
 	                        resultSet.getInt("id_cliente"),
 	                        resultSet.getString("nombre"),
-	                        resultSet.getString("telefono")
+	                        resultSet.getString("telefono"),
+	                        resultSet.getInt("visitas_previas")
 	                    );
 
 	                    return Optional.of(cliente);
@@ -89,16 +91,15 @@ public class ClienteDAO {
 	    // Actualizar un cliente existente
 	    public boolean actualizar(Cliente cliente) throws SQLException {
 
-	        String sql = "UPDATE clientes SET nombre = ?, telefono = ? "
-	                   + "WHERE id_cliente = ?";
-
+	    	String sql = "UPDATE clientes SET nombre = ?, telefono = ?, visitas_previas = ? "
+	    	           + "WHERE id_cliente = ?";
 	        try (Connection connection = Conexion.conectar();
 	             PreparedStatement statement = connection.prepareStatement(sql)) {
 
 	            statement.setString(1, cliente.getNombre());
 	            statement.setString(2, cliente.getTelefono());
-	            statement.setInt(3, cliente.getIdCliente());
-
+	            statement.setInt(3, cliente.getVisitasPrevias());
+	            statement.setInt(4, cliente.getIdCliente());
 	            int filasAfectadas = statement.executeUpdate();
 
 	            return filasAfectadas > 0;

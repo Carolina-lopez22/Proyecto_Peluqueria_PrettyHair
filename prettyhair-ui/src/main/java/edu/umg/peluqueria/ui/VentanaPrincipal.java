@@ -387,7 +387,7 @@ public class VentanaPrincipal extends JFrame {
                 crearCampo();  
         
         JComboBox<String> comboEstado = new JComboBox<>(
-                new String[] {"pendiente", "confirmada", "cancelada"}
+                new String[] {"pendiente", "confirmada","completada", "cancelada"}
         );
 
         agregarCampo(
@@ -714,7 +714,10 @@ public class VentanaPrincipal extends JFrame {
             JTextField campoDuracion =
                     (JTextField) formulario
                             .getComponent(7);
-
+            
+            JComboBox<?> comboEstado =
+                    (JComboBox<?>) formulario
+                            .getComponent(9);
             seleccionarCliente(
                     comboCliente,
                     cita.getIdCliente()
@@ -733,8 +736,9 @@ public class VentanaPrincipal extends JFrame {
             campoDuracion.setText(
                     String.valueOf(
                             cita.getDuracion()
-                    )
+                    )                   
             );
+            comboEstado.setSelectedItem(cita.getEstado());
             
         } catch (Exception ex) {
 
@@ -900,7 +904,8 @@ public class VentanaPrincipal extends JFrame {
         String[] columnas = {
                 "ID",
                 "Nombre",
-                "Teléfono"
+                "Teléfono",
+                "Visitas previas"
         };
 
         DefaultTableModel modelo =
@@ -932,7 +937,8 @@ public class VentanaPrincipal extends JFrame {
                         new Object[] {
                                 cliente.getIdCliente(),
                                 cliente.getNombre(),
-                                cliente.getTelefono()
+                                cliente.getTelefono(),
+                                cliente.getVisitasPrevias()
                         }
                 );
             }
@@ -1066,7 +1072,8 @@ public class VentanaPrincipal extends JFrame {
             Cliente cliente =
                     new Cliente(
                             nombre.getText().trim(),
-                            telefonoTexto
+                            telefonoTexto,                  
+                            0
                     );
 
             ClienteDAO dao =
@@ -1192,7 +1199,10 @@ public class VentanaPrincipal extends JFrame {
                     new Cliente(
                             id,
                             nombre.getText().trim(),
-                            telefonoTexto
+                            telefonoTexto,
+                            Integer.parseInt(
+                                    tabla.getValueAt(fila, 3).toString()
+                            )
                     );
 
             ClienteDAO dao =
