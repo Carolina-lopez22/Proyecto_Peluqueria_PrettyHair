@@ -55,7 +55,7 @@ public class VentanaPrincipal extends JFrame {
 
     // Formato de fecha
     private final DateTimeFormatter FORMATO_FECHA =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")
     		.withResolverStyle(ResolverStyle.STRICT);
     public VentanaPrincipal() {
 
@@ -375,7 +375,7 @@ public class VentanaPrincipal extends JFrame {
                 crearCampo();
 
         campoFecha.setToolTipText(
-                "Formato: yyyy-MM-dd HH:mm"
+                "Formato: uuuu-MM-dd HH:mm"
         );
 
         JLabel labelDuracion =
@@ -1273,10 +1273,6 @@ public class VentanaPrincipal extends JFrame {
             );
         }
     }
-
-    // ==========================================================
-    // CARGAR COMBOS
-    // ==========================================================
 
     private void cargarClientes(
             JComboBox<Cliente> combo) {
