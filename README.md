@@ -1,89 +1,211 @@
-💜 #Peluquería PrettyHair
+#Peluquería PrettyHair
 
-Sistema para gestionar las citas de una peluquería. El proyecto fue realizado en Java utilizando Swing para la interfaz gráfica, Maven para la organización del proyecto y MySQL para la base de datos.
+Descripción del proyecto
+PrettyHair es una aplicación de escritorio desarrollada para facilitar la administración de una peluquería.
 
-📌 Descripción
+El sistema permite registrar clientes, consultar los servicios ofrecidos y crear, editar y eliminar citas. Las operaciones se realizan mediante una interfaz gráfica desarrollada con Java Swing y la información se almacena en una base de datos MySQL.
+El proyecto utiliza una arquitectura Maven multi-módulo, separando la lógica de acceso a datos de la interfaz gráfica.
 
-PrettyHair permite llevar el control de clientes, servicios y citas de la peluquería.
+✨ Funcionalidades
+👤 Gestión de clientes
+* Registrar nuevos clientes.
+* Consultar clientes registrados.
+* Editar información de los clientes.
+* Eliminar clientes.
+* Validar que el nombre no esté vacío.
+* Validar que el teléfono tenga exactamente 8 dígitos.
 
-Desde el sistema se pueden registrar y editar clientes, consultar los servicios disponibles y agendar, editar o eliminar citas.
+💇 Servicios
+El sistema permite consultar los servicios disponibles en la peluquería.
+Entre los servicios registrados se encuentran:
+* Corte de cabello
+* Lavado de cabello
+* Peinado
+* Tinte
+* Mechas
+* Planchado
+* Keratina
+* Tratamiento capilar
+* Ondulación Permanente
+* Alisado Permanente
+Cada servicio cuenta con un precio registrado en la base de datos.
 
+📅 Gestión de citas
+* Registrar nuevas citas.
+* Consultar las citas existentes.
+* Editar citas.
+* Eliminar citas.
+* Seleccionar el cliente.
+* Seleccionar el servicio.
+* Registrar fecha y hora.
+* Registrar duración de la cita.
+* Asignar el estado de la cita.
+* El estado inicial de una nueva cita es pendiente.
+
+Los estados disponibles son:
+* pendiente
+* confirmada
+* cancelada
+
+✅ Validaciones
+El sistema cuenta con validaciones para evitar el ingreso de información incorrecta.
+
+Clientes
+* El nombre es obligatorio.
+* El teléfono es obligatorio.
+* El teléfono debe contener exactamente 8 dígitos.
+
+Citas
+* Debe seleccionarse un cliente.
+* Debe seleccionarse un servicio.
+* La fecha y hora deben tener el formato:
+
+yyyy-MM-dd HH:mm
+* No se permite registrar una cita con fecha u hora anterior al momento actual.
+* La duración debe ser un número entero mayor que 0.
+* El estado debe corresponder a uno de los estados permitidos.
+  
 🛠️ Tecnologías utilizadas
-
 * Java
 * Java Swing
 * Maven
 * JDBC
 * MySQL
-* Git y GitHub
+* MySQL Connector/J
+* Git
+* GitHub
 
-📂 Estructura del proyecto
+🏗️ Arquitectura del proyecto
 
-El proyecto está dividido en dos módulos:
-
-* prettyhair-core: contiene los modelos, DAO y la conexión con la base de datos.
-* prettyhair-ui: contiene la interfaz gráfica realizada con Java Swing.
-
+El proyecto utiliza una estructura Maven multi-módulo, formada por dos módulos principales:
 peluqueria-prettyhair/
+│
 ├── prettyhair-core/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── edu/umg/peluqueria/
+│                   ├── conexion/
+│                   ├── dao/
+│                   └── modelo/
+│
 ├── prettyhair-ui/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── edu/umg/peluqueria/
+│                   └── ui/
+│
 ├── pom.xml
 └── README.md
 
+prettyhair-core
+
+Contiene la lógica relacionada con los datos y la conexión con la base de datos.
+
+Incluye:
+* Modelos.
+* DAO.
+* Conexión a MySQL.
+
+prettyhair-ui
+Contiene la interfaz gráfica desarrollada con Java Swing.
+
+Incluye:
+* Ventana principal.
+* Formularios.
+* Tablas.
+* Botones.
+* Navegación entre las diferentes secciones.
+
 🗄️ Base de datos
+El sistema utiliza una base de datos llamada:
 
-La base de datos utilizada se llama peluqueria y contiene las siguientes tablas:
+peluqueria
+Está compuesta principalmente por las siguientes tablas:
 
-* clientes
-* servicios
-* citas
+clientes
+Almacena la información de los clientes.
+id_cliente
+nombre
+telefono
 
-Las citas están relacionadas con un cliente y un servicio.
+servicios
+Almacena los servicios disponibles.
+id_servicio
+nombre
+precio
 
-Funciones principales
+citas
+Almacena las citas registradas.
+id_cita
+id_cliente
+id_servicio
+fecha_hora
+duracion
+estado
 
+Las tablas citas, clientes y servicios están relacionadas mediante claves foráneas.
+
+🔌 Acceso a datos
+El proyecto utiliza JDBC para realizar la comunicación entre Java y MySQL.
+El acceso a la base de datos se realiza mediante:
+Connection
+    ↓
+PreparedStatement
+    ↓
+ResultSet
+
+Las operaciones de cada entidad se encuentran organizadas mediante clases DAO.
+Entre ellas:
+* ClienteDAO
+* ServiciosDAO
+* CitasDAO
+
+Las consultas SQL utilizan PreparedStatement para ejecutar las operaciones de forma estructurada.
+
+🖥️ Interfaz gráfica
+La interfaz fue desarrollada utilizando Java Swing.
+La ventana principal cuenta con un menú lateral que permite acceder a:
+Citas
+Agendar citas
+Editar citas
+Servicios
 Clientes
 
-* Agregar clientes.
-* Editar clientes.
-* Consultar clientes.
-* Eliminar clientes.
+La aplicación utiliza una interfaz visual basada en tonos lilas para mantener una apariencia relacionada con la identidad de la peluquería.
 
+
+📂 Clases principales
+Modelo
+Las clases del modelo representan la información utilizada por el sistema:
+
+Cliente
 Servicios
-
-* Consultar los servicios disponibles y sus precios.
-
 Citas
 
-* Agendar citas.
-* Editar citas.
-* Eliminar citas.
-* Consultar las citas registradas.
-* Seleccionar cliente y servicio.
-* Registrar fecha, hora y duración.
-* Cambiar el estado de la cita.
+DAO
+Las clases DAO se encargan de realizar las operaciones CRUD:
+ClienteDAO
+ServiciosDAO
+CitasDAO
 
-Los estados disponibles son:
+Conexión
+La clase:
+Conexion
+se encarga de establecer la conexión con la base de datos.
 
-* Pendiente
-* Confirmada
-* Cancelada
+Interfaz
+La clase principal de la interfaz gráfica es:
+VentanaPrincipal
+Esta clase administra las diferentes vistas y formularios de la aplicación.
 
-Validaciones
-
-El sistema valida algunos datos antes de guardarlos, por ejemplo:
-
-* El nombre del cliente no puede quedar vacío.
-* El teléfono debe tener 8 dígitos.
-* La fecha de una cita no puede estar en el pasado.
-* La duración debe ser mayor que 0.
-* Se debe seleccionar un cliente y un servicio.
-
-Ejecución
-
-Para utilizar el proyecto es necesario tener instalado Java, Maven y MySQL.
-
-1. Crear la base de datos utilizando el archivo schema.sql.
-2. Configurar los datos de conexión en Conexion.java.
-3. Abrir el proyecto en el IDE.
-4. Ejecutar la aplicación desde el módulo prettyhair-ui.
+🧪 Operaciones CRUD
+El sistema implementa las operaciones principales de un CRUD:
+Operación	Clientes	Servicios	Citas
+Crear	✅	—	✅
+Consultar	✅	✅	✅
+Editar	✅	—	✅
+Eliminar	✅	—	✅
+Los servicios se muestran como un catálogo de los servicios disponibles, por lo que la interfaz no incluye opciones para agregar o eliminar servicios.
++ Maven + JDBC + MySQL
